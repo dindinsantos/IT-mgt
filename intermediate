@@ -1,0 +1,47 @@
+def shift_letter(letter, shift):
+    if letter == ' ':
+        return ' '
+    else:
+        ascii_val = ord(letter) - 65
+        shifted_val = (ascii_val + shift) % 26
+        return chr(shifted_val + 65)
+
+def caesar_cipher(message, shift):
+    shifted_message = ''
+    for letter in message:
+        shifted_message += shift_letter(letter, shift)
+    return shifted_message
+
+def shift_by_letter(letter, letter_shift):
+    if letter == ' ':
+        return ' '
+    else:
+        ascii_val = ord(letter) - 65
+        shift_val = ord(letter_shift) - 65
+        shifted_val = (ascii_val + shift_val) % 26
+        return chr(shifted_val + 65)
+
+def vigenere_cipher(message, key):
+    shifted_message = ''
+    key = key * (len(message) // len(key) + 1)
+    for i in range(len(message)):
+        shifted_message += shift_by_letter(message[i], key[i])
+    return shifted_message
+
+print("\n----Output of function shift_letter----")
+print(shift_letter("A", 0))  # Output: A
+print(shift_letter("A", 2))  # Output: C
+print(shift_letter("Z", 1))  # Output: A
+print(shift_letter("X", 5))  # Output: C
+
+print("\n----Output of function caesar_cipher----")
+print(caesar_cipher("HELLO WORLD", 3))  # Output: KHOOR ZRUOG
+print(caesar_cipher("KHOOR ZRUOG", -3))  # Output: HELLO WORLD
+
+print("\n----Output of function shift_by_letter----")
+print(shift_by_letter("A", "A"))  # Output: A
+print(shift_by_letter("A", "C"))  # Output: C
+print(shift_by_letter("B", "K"))  # Output: L
+
+print("\n----Output of function vigenere_cipher----")
+print(vigenere_cipher("LONG TEXT", "KEY"))
