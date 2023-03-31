@@ -1,0 +1,123 @@
+def relationship_status(from_member, to_member, social_graph):
+    if to_member in social_graph[from_member]["following"] and from_member in social_graph[to_member]["following"]:
+        return "friends"
+    elif to_member in social_graph[from_member]["following"]:
+        return "follower"
+    elif from_member in social_graph[to_member]["following"]:
+        return "followed by"
+    else:
+        return "no relationship"
+
+social_graph = {
+    "@bongolpoc":{"first_name":"Joselito",
+                  "last_name":"Olpoc",
+                  "following":[
+                  ]
+    },
+    "@joaquin":  {"first_name":"Joaquin",
+                  "last_name":"Gonzales",
+                  "following":[
+                      "@chums","@jobenilagan"
+                  ]
+    },
+    "@chums" : {"first_name":"Matthew",
+                "last_name":"Uy",
+                "following":[
+                    "@bongolpoc","@miketan","@rudyang","@joeilagan"
+                ]
+    },
+    "@jobenilagan":{"first_name":"Joben",
+                   "last_name":"Ilagan",
+                   "following":[
+                    "@eeebeee","@joeilagan","@chums","@joaquin"
+                   ]
+    },
+    "@joeilagan":{"first_name":"Joe",
+                  "last_name":"Ilagan",
+                  "following":[
+                    "@eeebeee","@jobenilagan","@chums"
+                  ]
+    },
+    "@eeebeee":  {"first_name":"Elizabeth",
+                  "last_name":"Ilagan",
+                  "following":[
+                    "@jobenilagan","@joeilagan"
+                  ]
+    },
+}
+
+print("Sample output of Relationship Status:")
+print("The relationship status between @joaquin and @chums is: ",relationship_status("@joaquin", "@chums", social_graph)) # expected output: follower
+print("The relationship status between @joaquin and @jobenilagan is: ",relationship_status("@joaquin", "@jobenilagan", social_graph)) # expected output: friends
+print("The relationship status between @jobenilagan and @joaquin is: ",relationship_status("@jobenilagan", "@joaquin", social_graph)) # expected output: followed by
+print("The relationship status between @joaquin and @bongolpoc is: ",relationship_status("@joaquin", "@bongolpoc", social_graph)) # expected output: no relationship
+
+
+def tic_tac_toe(board):
+    # Check rows
+    for row in board:
+        if len(set(row)) == 1 and row[0] != '':
+            return row[0]
+    # Check columns
+    for col in range(len(board)):
+        if len(set([board[i][col] for i in range(len(board))])) == 1 and board[0][col] != '':
+            return board[0][col]
+    # Check diagonals
+    if len(set([board[i][i] for i in range(len(board))])) == 1 and board[0][0] != '':
+        return board[0][0]
+    if len(set([board[i][len(board)-1-i] for i in range(len(board))])) == 1 and board[0][len(board)-1] != '':
+        return board[0][len(board)-1]
+    # No winner
+    return 'NO WINNER'
+
+board1 = [
+['X','X','O'],
+['O','X','O'],
+['O','','X'],
+]
+
+print("\nSample output of Tic-Tac-Toe:")
+print("[X] [X] [O]")
+print("[O] [X] [O]")
+print("[X] [ ] [X]")
+winner = tic_tac_toe(board1)
+print("The winner is: ",winner)
+
+
+
+def eta(first_stop, second_stop, route_map):
+    # Find the total travel time from first_stop to second_stop
+    total_travel_time = 0
+    current_stop = first_stop
+    while current_stop != second_stop:
+        # Get the next leg in the route
+        next_stop = None
+        for (from_stop, to_stop), leg in route_map.items():
+            if from_stop == current_stop:
+                next_stop = to_stop
+                total_travel_time += leg["travel_time_mins"]
+                break
+        # If we've reached the end of the route without finding the second_stop, there's an error
+        if next_stop is None:
+            raise ValueError("Invalid route")
+        current_stop = next_stop
+    return total_travel_time
+
+
+# Define the legs variable
+legs = {
+     ("upd","admu"):{
+         "travel_time_mins":10
+     },
+     ("admu","dlsu"):{
+         "travel_time_mins":35
+     },
+     ("dlsu","upd"):{
+         "travel_time_mins":55
+     }
+}
+
+print("\nSample output of ETA:")
+print(eta("upd", "admu", legs))  # Output: 10
+print(eta("admu", "dlsu", legs))  # Output: 45
+print(eta("dlsu", "upd", legs))  # Output: 100
