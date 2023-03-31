@@ -1,0 +1,23 @@
+import math
+
+def savings(gross_pay, tax_rate, expenses):
+    after_tax_pay = math.floor(gross_pay * (1 - tax_rate))
+    return after_tax_pay - expenses
+
+def material_waste(total_material, material_units, num_jobs, job_consumption):
+    waste = num_jobs * job_consumption - total_material
+    return str(abs(waste)) + material_units
+
+def interest(principal, rate, periods):
+    final_value = principal + math.floor(principal * rate * periods)
+    return final_value
+
+def body_mass_index(weight, height):
+    weight_kg = weight * 0.45359237
+    height_m = (height[0] * 0.3048 + height[1] * 0.0254) ** 2
+    return weight_kg / height_m
+    
+print("Sample output for savings function: ",savings(100000, 0.2, 30000)) 
+print("Sample output for Material Waste function: ",material_waste(1000, 'kg', 5, 100))
+print("Sample output for Interest function: ",interest(100000, 0.05, 10))
+print("Sample output for Body Mass Index function: ",body_mass_index(150, [5, 10]))
